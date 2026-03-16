@@ -1,0 +1,785 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Services - PharmaLocator</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* ===== GLOBAL STYLES ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f8fafc;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        /* ===== HEADER DESIGN (EXACTLY LIKE YOUR IMAGE) ===== */
+        .new-header {
+            background: white;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.08);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .header-container {
+            max-width: 1300px;
+            margin: 0 auto;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        /* LEFT: Logo Section */
+        .logo-section {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo-link {
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo-icon {
+            font-size: 24px;
+            background: linear-gradient(135deg, #2c7da0, #2a9d8f);
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 10px;
+            color: white;
+        }
+
+        .logo-text {
+            font-weight: 700;
+            font-size: 18px;
+            color: #1e293b;
+        }
+
+        .logo-text span {
+            color: #64748b;
+            font-weight: 400;
+            font-size: 12px;
+            display: block;
+            line-height: 1.2;
+        }
+
+        /* CENTER: Navigation Links (EXACTLY LIKE YOUR IMAGE) */
+        .nav-center {
+            display: flex;
+            gap: 32px;
+        }
+
+        .nav-center a {
+            text-decoration: none;
+            color: #475569;
+            font-weight: 500;
+            font-size: 15px;
+            padding: 8px 0;
+            border-bottom: 2px solid transparent;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-center a:hover {
+            color: #2c7da0;
+            border-bottom-color: #2c7da0;
+        }
+
+        .nav-center a.active {
+            color: #2c7da0;
+            border-bottom-color: #2c7da0;
+            font-weight: 600;
+        }
+
+        /* RIGHT: Action Buttons (EXACTLY LIKE YOUR IMAGE) */
+        .action-buttons {
+            display: flex;
+            gap: 12px;
+        }
+
+        .btn-signin {
+            text-decoration: none;
+            padding: 8px 20px;
+            background: #f1f5f9;
+            color: #334155;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            border: 1px solid #e2e8f0;
+        }
+
+        .btn-signin:hover {
+            background: #e2e8f0;
+            transform: translateY(-2px);
+        }
+
+        .btn-register {
+            text-decoration: none;
+            padding: 8px 20px;
+            background: #2c7da0;
+            color: white;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 10px rgba(44,125,160,0.2);
+        }
+
+        .btn-register:hover {
+            background: #1e5f7a;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(44,125,160,0.3);
+        }
+
+        /* ===== HERO SECTION (KEEPING YOUR CONTENT BUT STYLING IT) ===== */
+        .services-hero {
+            background: linear-gradient(135deg, #1e293b, #0f172a);
+            color: white;
+            padding: 80px 20px;
+            text-align: center;
+            margin-bottom: 60px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .services-hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" opacity="0.1"><path d="M20 20 L80 20 L80 80 L20 80 Z" fill="none" stroke="white" stroke-width="2"/><circle cx="50" cy="50" r="15" fill="none" stroke="white" stroke-width="2"/></svg>') repeat;
+            opacity: 0.1;
+        }
+
+        .services-hero h1 {
+            font-size: 48px;
+            margin-bottom: 20px;
+            color: white;
+            position: relative;
+            z-index: 1;
+        }
+
+        .services-hero p {
+            font-size: 18px;
+            max-width: 700px;
+            margin: 0 auto;
+            opacity: 0.9;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* ===== MAIN CONTENT CONTAINER ===== */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px 60px;
+        }
+
+        /* ===== SERVICES GRID (KEEPING YOUR EXISTING STYLES) ===== */
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            margin: 50px 0;
+        }
+
+        .service-card {
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            transition: all 0.3s;
+            border: 1px solid #f0f0f0;
+        }
+
+        .service-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.12);
+        }
+
+        .service-icon {
+            height: 150px;
+            background: linear-gradient(135deg, #2c7da0, #2a9d8f);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 60px;
+        }
+
+        /* Different colors for each card */
+        .service-card:nth-child(1) .service-icon { background: linear-gradient(135deg, #2c7da0, #2a9d8f); }
+        .service-card:nth-child(2) .service-icon { background: linear-gradient(135deg, #e76f51, #f4a261); }
+        .service-card:nth-child(3) .service-icon { background: linear-gradient(135deg, #2a9d8f, #2c7da0); }
+        .service-card:nth-child(4) .service-icon { background: linear-gradient(135deg, #e9c46a, #f4a261); }
+        .service-card:nth-child(5) .service-icon { background: linear-gradient(135deg, #1e5f7a, #2c7da0); }
+        .service-card:nth-child(6) .service-icon { background: linear-gradient(135deg, #9c89b8, #b8b8ff); }
+
+        .service-content {
+            padding: 25px;
+        }
+
+        .service-content h3 {
+            font-size: 22px;
+            margin-bottom: 15px;
+            color: #1e293b;
+        }
+
+        .service-content p {
+            color: #64748b;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .service-features {
+            list-style: none;
+            padding: 0;
+        }
+
+        .service-features li {
+            padding: 8px 0;
+            border-bottom: 1px solid #f1f5f9;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #475569;
+        }
+
+        .service-features li i {
+            color: #2c7da0;
+            width: 20px;
+        }
+
+        .service-features li:last-child {
+            border-bottom: none;
+        }
+
+        /* ===== PRICING SECTION (KEEPING YOUR STYLES) ===== */
+        .pricing-section {
+            background: #f8fafc;
+            padding: 60px 40px;
+            border-radius: 24px;
+            margin: 50px 0;
+        }
+
+        .pricing-section h2 {
+            text-align: center;
+            margin-bottom: 50px;
+            font-size: 36px;
+            color: #1e293b;
+        }
+
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+        }
+
+        .pricing-card {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            transition: transform 0.3s;
+            position: relative;
+            border: 1px solid #f0f0f0;
+        }
+
+        .pricing-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .pricing-card.popular {
+            transform: scale(1.05);
+            border: 2px solid #2c7da0;
+            z-index: 1;
+        }
+
+        .popular-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: #2c7da0;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 30px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .pricing-header {
+            background: linear-gradient(135deg, #2c7da0, #1e5f7a);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .pricing-card:nth-child(2) .pricing-header {
+            background: linear-gradient(135deg, #2a9d8f, #1e7a6a);
+        }
+
+        .pricing-card:nth-child(3) .pricing-header {
+            background: linear-gradient(135deg, #e76f51, #c44536);
+        }
+
+        .pricing-header h3 {
+            font-size: 24px;
+            margin-bottom: 15px;
+            color: white;
+        }
+
+        .price {
+            font-size: 42px;
+            font-weight: bold;
+        }
+
+        .price small {
+            font-size: 14px;
+            opacity: 0.8;
+        }
+
+        .pricing-body {
+            padding: 30px;
+        }
+
+        .pricing-features {
+            list-style: none;
+            padding: 0;
+            margin-bottom: 30px;
+        }
+
+        .pricing-features li {
+            padding: 12px 0;
+            border-bottom: 1px solid #f1f5f9;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #475569;
+        }
+
+        .pricing-features li i.fa-check {
+            color: #2c7da0;
+        }
+
+        .pricing-features li i.fa-times {
+            color: #e76f51;
+        }
+
+        .pricing-btn {
+            display: block;
+            text-align: center;
+            padding: 14px;
+            background: linear-gradient(135deg, #2c7da0, #1e5f7a);
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .pricing-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(44,125,160,0.3);
+        }
+
+        /* ===== FAQ SECTION (KEEPING YOUR STYLES) ===== */
+        .faq-section {
+            margin: 60px 0;
+        }
+
+        .faq-section h2 {
+            text-align: center;
+            margin-bottom: 50px;
+            font-size: 36px;
+            color: #1e293b;
+        }
+
+        .faq-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 25px;
+        }
+
+        .faq-item {
+            background: white;
+            padding: 30px;
+            border-radius: 16px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+            border: 1px solid #f0f0f0;
+            transition: all 0.3s;
+        }
+
+        .faq-item:hover {
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .faq-item h3 {
+            color: #2c7da0;
+            margin-bottom: 15px;
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .faq-item p {
+            color: #64748b;
+            line-height: 1.6;
+        }
+
+        /* ===== FOOTER (UPDATED TO MATCH NEW DESIGN) ===== */
+        footer {
+            background: #1e293b;
+            color: white;
+            padding: 30px 5%;
+            margin-top: 60px;
+        }
+
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .footer-copyright {
+            color: #cbd5e1;
+            font-size: 14px;
+        }
+
+        .footer-social {
+            display: flex;
+            gap: 20px;
+        }
+
+        .footer-social a {
+            color: #cbd5e1;
+            font-size: 18px;
+            transition: all 0.3s;
+        }
+
+        .footer-social a:hover {
+            color: white;
+            transform: translateY(-3px);
+        }
+
+        /* ===== RESPONSIVE DESIGN ===== */
+        @media (max-width: 768px) {
+            .header-container {
+                flex-direction: column;
+                gap: 15px;
+                padding: 15px;
+            }
+
+            .nav-center {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 15px;
+            }
+
+            .action-buttons {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .services-grid,
+            .pricing-grid,
+            .faq-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .pricing-card.popular {
+                transform: scale(1);
+            }
+
+            .services-hero h1 {
+                font-size: 32px;
+            }
+
+            .footer-container {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- ===== NEW HEADER - EXACTLY LIKE YOUR REFERENCE IMAGE ===== -->
+    <header class="new-header">
+        <div class="header-container">
+            <!-- LEFT: Logo -->
+            <div class="logo-section">
+                <a href="home.html" class="logo-link">
+                    <div class="logo-icon">💊</div>
+                    <div class="logo-text">
+                        PharmaLocator
+                        <span>Find Care, Fast</span>
+                    </div>
+                </a>
+            </div>
+
+            <!-- CENTER: Navigation Links (Exactly like your image) -->
+            <nav class="nav-center">
+                <a href="home.html">Home</a>
+                <a href="about.html">About</a>
+                <a href="contact.html">Contact</a>
+            </nav>
+
+            <!-- RIGHT: Action Buttons (Exactly like your image) -->
+            <div class="action-buttons">
+                <a href="login.html" class="btn-signin">Sign in</a>
+                <a href="signup.php" class="btn-register">Register</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- ===== MAIN CONTENT - KEEPING YOUR EXISTING CONTENT ===== -->
+    <div class="services-hero">
+        <h1>Our Services</h1>
+        <p>Comprehensive healthcare location and information services designed to connect you with the care you need, when you need it most.</p>
+    </div>
+
+    <div class="container">
+        <!-- Main Services Grid (Your existing content) -->
+        <div class="services-grid">
+            <div class="service-card">
+                <div class="service-icon">
+                    <i class="fas fa-map-marked-alt"></i>
+                </div>
+                <div class="service-content">
+                    <h3>Pharmacy Locator</h3>
+                    <p>Find nearby pharmacies instantly. Get directions, check operating hours, and see available medications.</p>
+                    <ul class="service-features">
+                        <li><i class="fas fa-check"></i> Real-time location tracking</li>
+                        <li><i class="fas fa-check"></i> Distance calculation</li>
+                        <li><i class="fas fa-check"></i> 24/7 pharmacy filter</li>
+                        <li><i class="fas fa-check"></i> Navigation assistance</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="service-card">
+                <div class="service-icon">
+                    <i class="fas fa-hospital"></i>
+                </div>
+                <div class="service-content">
+                    <h3>Hospital Finder</h3>
+                    <p>Locate hospitals by specialty, emergency services, and proximity. View services and contact details.</p>
+                    <ul class="service-features">
+                        <li><i class="fas fa-check"></i> Emergency department status</li>
+                        <li><i class="fas fa-check"></i> Specialist availability</li>
+                        <li><i class="fas fa-check"></i> Admission information</li>
+                        <li><i class="fas fa-check"></i> Insurance acceptance</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="service-card">
+                <div class="service-icon">
+                    <i class="fas fa-clinic-medical"></i>
+                </div>
+                <div class="service-content">
+                    <h3>Clinic Directory</h3>
+                    <p>Comprehensive directory of clinics offering various medical services, from general practice to specialized care.</p>
+                    <ul class="service-features">
+                        <li><i class="fas fa-check"></i> Specialty clinics</li>
+                        <li><i class="fas fa-check"></i> Appointment scheduling</li>
+                        <li><i class="fas fa-check"></i> Service catalog</li>
+                        <li><i class="fas fa-check"></i> Doctor profiles</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="service-card">
+                <div class="service-icon">
+                    <i class="fas fa-pills"></i>
+                </div>
+                <div class="service-content">
+                    <h3>Medicine Availability</h3>
+                    <p>Check if specific medications are in stock at nearby pharmacies before you visit.</p>
+                    <ul class="service-features">
+                        <li><i class="fas fa-check"></i> Real-time stock status</li>
+                        <li><i class="fas fa-check"></i> Price comparison</li>
+                        <li><i class="fas fa-check"></i> Generic alternatives</li>
+                        <li><i class="fas fa-check"></i> Prescription requirements</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="service-card">
+                <div class="service-icon">
+                    <i class="fas fa-route"></i>
+                </div>
+                <div class="service-content">
+                    <h3>Directions & Navigation</h3>
+                    <p>Get turn-by-turn directions from your current location to any healthcare facility.</p>
+                    <ul class="service-features">
+                        <li><i class="fas fa-check"></i> Multiple route options</li>
+                        <li><i class="fas fa-check"></i> Estimated travel time</li>
+                        <li><i class="fas fa-check"></i> Traffic information</li>
+                        <li><i class="fas fa-check"></i> Public transport options</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="service-card">
+                <div class="service-icon">
+                    <i class="fas fa-heart"></i>
+                </div>
+                <div class="service-content">
+                    <h3>Favorites & Alerts</h3>
+                    <p>Save your preferred facilities and receive notifications about updates and promotions.</p>
+                    <ul class="service-features">
+                        <li><i class="fas fa-check"></i> Favorite facilities list</li>
+                        <li><i class="fas fa-check"></i> Stock alerts for medicines</li>
+                        <li><i class="fas fa-check"></i> New service notifications</li>
+                        <li><i class="fas fa-check"></i> Health tips and updates</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Pricing Section (Your existing content) -->
+        <div class="pricing-section">
+            <h2>Choose Your Plan</h2>
+            <div class="pricing-grid">
+                <div class="pricing-card">
+                    <div class="pricing-header">
+                        <h3>Basic</h3>
+                        <div class="price">FREE</div>
+                        <small>For individuals</small>
+                    </div>
+                    <div class="pricing-body">
+                        <ul class="pricing-features">
+                            <li><i class="fas fa-check"></i> Search all facilities</li>
+                            <li><i class="fas fa-check"></i> View basic information</li>
+                            <li><i class="fas fa-check"></i> Get directions</li>
+                            <li><i class="fas fa-check"></i> Save 5 favorites</li>
+                            <li><i class="fas fa-times"></i> Medicine price alerts</li>
+                            <li><i class="fas fa-times"></i> Advanced filters</li>
+                        </ul>
+                        <a href="signup.php" class="pricing-btn">Get Started</a>
+                    </div>
+                </div>
+                
+                <div class="pricing-card popular">
+                    <div class="popular-badge">Most Popular</div>
+                    <div class="pricing-header">
+                        <h3>Premium</h3>
+                        <div class="price">5,000 FCFA</div>
+                        <small>per month</small>
+                    </div>
+                    <div class="pricing-body">
+                        <ul class="pricing-features">
+                            <li><i class="fas fa-check"></i> All Basic features</li>
+                            <li><i class="fas fa-check"></i> Unlimited favorites</li>
+                            <li><i class="fas fa-check"></i> Medicine price alerts</li>
+                            <li><i class="fas fa-check"></i> Stock notifications</li>
+                            <li><i class="fas fa-check"></i> Priority support</li>
+                            <li><i class="fas fa-check"></i> Advanced filters</li>
+                        </ul>
+                        <a href="signup.php" class="pricing-btn">Upgrade Now</a>
+                    </div>
+                </div>
+                
+                <div class="pricing-card">
+                    <div class="pricing-header">
+                        <h3>Business</h3>
+                        <div class="price">15,000 FCFA</div>
+                        <small>per month</small>
+                    </div>
+                    <div class="pricing-body">
+                        <ul class="pricing-features">
+                            <li><i class="fas fa-check"></i> All Premium features</li>
+                            <li><i class="fas fa-check"></i> Multiple facilities</li>
+                            <li><i class="fas fa-check"></i> Analytics dashboard</li>
+                            <li><i class="fas fa-check"></i> Promotional features</li>
+                            <li><i class="fas fa-check"></i> API access</li>
+                            <li><i class="fas fa-check"></i> Dedicated support</li>
+                        </ul>
+                        <a href="signup.php" class="pricing-btn">Contact Sales</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- FAQ Section (Your existing content) -->
+        <div class="faq-section">
+            <h2>Frequently Asked Questions</h2>
+            <div class="faq-grid">
+                <div class="faq-item">
+                    <h3><i class="fas fa-question-circle"></i> Is the service really free?</h3>
+                    <p>Yes! The basic version of our platform is completely free for all users. You can search for facilities, view information, and get directions without paying anything.</p>
+                </div>
+                
+                <div class="faq-item">
+                    <h3><i class="fas fa-question-circle"></i> How accurate is the medicine availability?</h3>
+                    <p>Stock information is provided directly by pharmacy owners and updated in real-time. However, we recommend calling ahead for confirmation, especially for urgent medications.</p>
+                </div>
+                
+                <div class="faq-item">
+                    <h3><i class="fas fa-question-circle"></i> Can I list my facility?</h3>
+                    <p>Absolutely! Business owners can register their facilities through our signup process. Your listing will be verified by our admin team before going live.</p>
+                </div>
+                
+                <div class="faq-item">
+                    <h3><i class="fas fa-question-circle"></i> How do I get directions?</h3>
+                    <p>Simply click on any facility marker on the map, then click "Get Directions." The system will calculate the best route from your current location.</p>
+                </div>
+                
+                <div class="faq-item">
+                    <h3><i class="fas fa-question-circle"></i> Is my location data private?</h3>
+                    <p>Yes, we take privacy seriously. Your location is only used to provide relevant search results and is never shared with third parties.</p>
+                </div>
+                
+                <div class="faq-item">
+                    <h3><i class="fas fa-question-circle"></i> What areas do you cover?</h3>
+                    <p>Currently, we focus on Yaoundé, but we're expanding to other cities in Cameroon. Contact us if you'd like us to add your city.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== UPDATED FOOTER ===== -->
+    <footer>
+        <div class="footer-container">
+            <div class="footer-copyright">
+                &copy; 2026 PharmaLocator. All rights reserved.
+            </div>
+            <div class="footer-social">
+                <a href="#"><i class="fab fa-facebook-f"></i></a>
+                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                <a href="#"><i class="fab fa-instagram"></i></a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu toggle (if needed)
+        function toggleMenu() {
+            // You can add mobile menu functionality here if needed
+        }
+    </script>
+</body>
+</html>

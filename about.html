@@ -1,0 +1,902 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us - PharmaLocator</title>
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* ===== GLOBAL STYLES ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f8fafc;
+            color: #1e293b;
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* ===== HEADER DESIGN ===== */
+        .new-header {
+            background: white;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.08);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .header-container {
+            max-width: 1300px;
+            margin: 0 auto;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo-link {
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo-icon {
+            font-size: 24px;
+            background: linear-gradient(135deg, #2c7da0, #2a9d8f);
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 10px;
+            color: white;
+        }
+
+        .logo-text {
+            font-weight: 700;
+            font-size: 18px;
+            color: #1e293b;
+        }
+
+        .logo-text span {
+            color: #64748b;
+            font-weight: 400;
+            font-size: 12px;
+            display: block;
+            line-height: 1.2;
+        }
+
+        /* Navigation */
+        .nav-center {
+            display: flex;
+            gap: 32px;
+        }
+
+        .nav-center a {
+            text-decoration: none;
+            color: #475569;
+            font-weight: 500;
+            font-size: 15px;
+            padding: 8px 0;
+            border-bottom: 2px solid transparent;
+            transition: all 0.3s ease;
+        }
+
+        .nav-center a:hover {
+            color: #2c7da0;
+            border-bottom-color: #2c7da0;
+        }
+
+        .nav-center a.active {
+            color: #2c7da0;
+            border-bottom-color: #2c7da0;
+            font-weight: 600;
+        }
+
+        /* Action Buttons */
+        .action-buttons {
+            display: flex;
+            gap: 12px;
+        }
+
+        .btn-signin {
+            text-decoration: none;
+            padding: 8px 20px;
+            background: #f1f5f9;
+            color: #334155;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            border: 1px solid #e2e8f0;
+        }
+
+        .btn-signin:hover {
+            background: #e2e8f0;
+            transform: translateY(-2px);
+        }
+
+        .btn-register {
+            text-decoration: none;
+            padding: 8px 20px;
+            background: #2c7da0;
+            color: white;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 10px rgba(44,125,160,0.2);
+        }
+
+        .btn-register:hover {
+            background: #1e5f7a;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(44,125,160,0.3);
+        }
+
+        /* ===== MAIN CONTAINER ===== */
+        .container {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 20px;
+            flex: 1;
+            width: 100%;
+        }
+
+        /* ===== KEEPING YOUR EXISTING STYLES BUT MODERNIZING THEM ===== */
+        
+        /* About Hero - Updated */
+        .about-hero {
+            background: linear-gradient(135deg, #1e293b, #0f172a);
+            color: white;
+            padding: 80px 20px;
+            text-align: center;
+            border-radius: 24px;
+            margin-bottom: 50px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+        }
+
+        .about-hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" opacity="0.1"><path d="M20 20 L80 20 L80 80 L20 80 Z" fill="none" stroke="white" stroke-width="2"/><circle cx="50" cy="50" r="15" fill="none" stroke="white" stroke-width="2"/></svg>') repeat;
+            opacity: 0.1;
+        }
+        
+        .about-hero h1 {
+            font-size: 42px;
+            margin-bottom: 20px;
+            color: white;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .about-hero p {
+            font-size: 18px;
+            max-width: 800px;
+            margin: 0 auto;
+            opacity: 0.9;
+            position: relative;
+            z-index: 1;
+        }
+        
+        /* Mission & Vision Cards - Updated */
+        .mission-vision {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin: 50px 0;
+        }
+        
+        .mission-card, .vision-card {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            transition: transform 0.3s, box-shadow 0.3s;
+            border: 1px solid #f0f0f0;
+        }
+        
+        .mission-card:hover, .vision-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.12);
+        }
+        
+        .mission-card h2, .vision-card h2 {
+            color: #2c7da0;
+            margin-bottom: 20px;
+            font-size: 28px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .mission-card h2 i, .vision-card h2 i {
+            font-size: 32px;
+            background: #f0f9ff;
+            padding: 10px;
+            border-radius: 50%;
+            color: #2c7da0;
+        }
+        
+        .mission-card p, .vision-card p {
+            color: #475569;
+            line-height: 1.8;
+            font-size: 16px;
+        }
+        
+        /* Statistics Section - Updated */
+        .stats-section {
+            background: white;
+            padding: 50px;
+            border-radius: 20px;
+            margin: 50px 0;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            border: 1px solid #f0f0f0;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 30px;
+            text-align: center;
+        }
+        
+        .stat-item {
+            padding: 20px;
+            background: #f8fafc;
+            border-radius: 16px;
+            transition: transform 0.3s;
+        }
+
+        .stat-item:hover {
+            transform: translateY(-5px);
+        }
+        
+        .stat-number {
+            font-size: 42px;
+            font-weight: bold;
+            background: linear-gradient(135deg, #2c7da0, #2a9d8f);
+             -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+            /* Standard property for all browsers */
+background-clip: text;
+-webkit-background-clip: text;  /* For Safari/Chrome */
+-moz-background-clip: text;     /* For Firefox (older versions) */
+        }
+        
+        .stat-label {
+            color: #64748b;
+            font-size: 15px;
+            font-weight: 500;
+        }
+        
+        /* Values Section - Updated */
+        .values-section {
+            background: white;
+            padding: 50px;
+            border-radius: 20px;
+            margin: 50px 0;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            border: 1px solid #f0f0f0;
+        }
+        
+        .values-section h2 {
+            text-align: center;
+            margin-bottom: 50px;
+            font-size: 36px;
+            color: #1e293b;
+            position: relative;
+        }
+
+        .values-section h2:after {
+            content: '';
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(90deg, #2c7da0, #2a9d8f);
+            border-radius: 2px;
+        }
+        
+        .values-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+        }
+        
+        .value-item {
+            text-align: center;
+            padding: 30px;
+            background: #f8fafc;
+            border-radius: 16px;
+            transition: transform 0.3s;
+        }
+
+        .value-item:hover {
+            transform: translateY(-5px);
+        }
+        
+        .value-icon {
+            font-size: 48px;
+            background: linear-gradient(135deg, #2c7da0, #2a9d8f);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 20px;
+            /* Standard property for all browsers */
+background-clip: text;
+-webkit-background-clip: text;  /* For Safari/Chrome */
+-moz-background-clip: text;     /* For Firefox (older versions) */
+        }
+        
+        .value-item h3 {
+            margin-bottom: 15px;
+            color: #1e293b;
+            font-size: 20px;
+        }
+        
+        .value-item p {
+            color: #64748b;
+            line-height: 1.6;
+        }
+        
+        /* Team Section - Updated */
+        .team-section {
+            margin: 60px 0;
+        }
+        
+        .team-section h2 {
+            text-align: center;
+            margin-bottom: 50px;
+            font-size: 36px;
+            color: #1e293b;
+            position: relative;
+        }
+
+        .team-section h2:after {
+            content: '';
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(90deg, #2c7da0, #2a9d8f);
+            border-radius: 2px;
+        }
+        
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+        }
+        
+        .team-member {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            transition: transform 0.3s, box-shadow 0.3s;
+            border: 1px solid #f0f0f0;
+        }
+        
+        .team-member:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.12);
+        }
+        
+        .member-image {
+            height: 250px;
+            background: linear-gradient(135deg, #2c7da0, #1e5f7a);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 80px;
+        }
+        
+        .member-info {
+            padding: 25px;
+            text-align: center;
+        }
+        
+        .member-info h3 {
+            margin-bottom: 5px;
+            color: #1e293b;
+            font-size: 20px;
+        }
+        
+        .member-info p {
+            color: #64748b;
+            font-size: 14px;
+            margin-bottom: 15px;
+        }
+        
+        .member-social {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+        }
+        
+        .member-social a {
+            color: #94a3b8;
+            font-size: 18px;
+            transition: all 0.3s;
+            width: 36px;
+            height: 36px;
+            background: #f1f5f9;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+        }
+        
+        .member-social a:hover {
+            color: white;
+            background: #2c7da0;
+            transform: translateY(-3px);
+        }
+        
+        /* CTA Section - Updated */
+        .cta-section {
+            background: linear-gradient(135deg, #2c7da0, #1e5f7a);
+            color: white;
+            padding: 80px 20px;
+            border-radius: 24px;
+            text-align: center;
+            margin: 60px 0;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(44,125,160,0.3);
+        }
+
+        .cta-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" opacity="0.1"><path d="M20 20 L80 20 L80 80 L20 80 Z" fill="none" stroke="white" stroke-width="2"/><circle cx="50" cy="50" r="15" fill="none" stroke="white" stroke-width="2"/></svg>') repeat;
+            opacity: 0.1;
+        }
+        
+        .cta-section h2 {
+            font-size: 36px;
+            margin-bottom: 20px;
+            color: white;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .cta-section p {
+            font-size: 18px;
+            margin-bottom: 30px;
+            opacity: 0.9;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .cta-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .cta-button {
+            padding: 16px 32px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .cta-button.primary {
+            background: white;
+            color: #2c7da0;
+        }
+        
+        .cta-button.primary:hover {
+            background: #f8fafc;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+        
+        .cta-button.secondary {
+            background: transparent;
+            color: white;
+            border: 2px solid white;
+        }
+        
+        .cta-button.secondary:hover {
+            background: rgba(255,255,255,0.1);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+        
+        /* Footer */
+        footer {
+            background: white;
+            padding: 30px 5%;
+            margin-top: 40px;
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.05);
+        }
+        
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        
+        .footer-copyright {
+            color: #64748b;
+            font-size: 14px;
+        }
+        
+        .footer-social {
+            display: flex;
+            gap: 20px;
+        }
+        
+        .footer-social a {
+            color: #94a3b8;
+            font-size: 18px;
+            transition: all 0.3s;
+        }
+        
+        .footer-social a:hover {
+            color: #2c7da0;
+            transform: translateY(-3px);
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header-container {
+                flex-direction: column;
+                gap: 15px;
+                padding: 15px;
+            }
+            
+            .nav-center {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 15px;
+            }
+            
+            .action-buttons {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .mission-vision,
+            .stats-grid,
+            .team-grid,
+            .values-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .about-hero h1 {
+                font-size: 28px;
+            }
+            
+            .cta-buttons {
+                flex-direction: column;
+            }
+            
+            .cta-section h2 {
+                font-size: 28px;
+            }
+            
+            .footer-container {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- ===== NEW HEADER ===== -->
+    <header class="new-header">
+        <div class="header-container">
+            <!-- LEFT: Logo -->
+            <div class="logo-section">
+                <a href="home.html" class="logo-link">
+                    <div class="logo-icon"></div>
+                    <div class="logo-text">
+                        PharmaLocator
+                        <span>Find Care, Fast</span>
+                    </div>
+                </a>
+            </div>
+
+            <!-- CENTER: Navigation (KEEPING YOUR LINKS) -->
+            <nav class="nav-center">
+                <a href="home.html">Home</a>
+                <a href="service.html">Services</a>
+                <a href="about.html" class="active">About</a>
+                <a href="contact.html">Contact</a>
+                <a href="signup.php">Signup</a>
+            </nav>
+
+            <!-- RIGHT: Action Buttons -->
+            <div class="action-buttons">
+                <a href="login.html" class="btn-signin">Sign in</a>
+                <a href="signup.php" class="btn-register">Register</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- ===== MAIN CONTENT (YOUR EXISTING CONTENT - INTACT) ===== -->
+    <div class="container">
+        <!-- Hero Section -->
+        <div class="about-hero">
+            <h1>About Our Platform</h1>
+            <p>Connecting you with quality healthcare facilities across Yaoundé. We're on a mission to make healthcare accessible to everyone, anytime, anywhere.</p>
+        </div>
+
+        <!-- Mission and Vision -->
+        <div class="mission-vision">
+            <div class="mission-card">
+                <h2>
+                    <i class="fas fa-bullseye"></i>
+                    Our Mission
+                </h2>
+                <p>To provide a reliable, user-friendly platform that helps individuals quickly locate and access healthcare facilities, medicines, and services in their time of need. We believe that access to healthcare information should be fast, accurate, and available to everyone.</p>
+            </div>
+            
+            <div class="vision-card">
+                <h2>
+                    <i class="fas fa-eye"></i>
+                    Our Vision
+                </h2>
+                <p>To become the most trusted healthcare directory in Cameroon, connecting every community with the healthcare services they need. We envision a future where no one has to struggle to find medical help during emergencies.</p>
+            </div>
+        </div>
+
+        <!-- Statistics Section -->
+        <div class="stats-section">
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <div class="stat-number">150+</div>
+                    <div class="stat-label">Registered Facilities</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">50+</div>
+                    <div class="stat-label">Pharmacies</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">30+</div>
+                    <div class="stat-label">Hospitals</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">70+</div>
+                    <div class="stat-label">Clinics</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">5,000+</div>
+                    <div class="stat-label">Happy Users</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">24/7</div>
+                    <div class="stat-label">Emergency Access</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">10+</div>
+                    <div class="stat-label">Cities</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">100%</div>
+                    <div class="stat-label">Free Service</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Our Values -->
+        <div class="values-section">
+            <h2>Our Core Values</h2>
+            <div class="values-grid">
+                <div class="value-item">
+                    <div class="value-icon">
+                        <i class="fas fa-heart"></i>
+                    </div>
+                    <h3>Compassion</h3>
+                    <p>We care about people's health and well-being. Every feature we build is designed with empathy for those seeking healthcare.</p>
+                </div>
+                <div class="value-item">
+                    <div class="value-icon">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <h3>Accuracy</h3>
+                    <p>We verify all facility information to ensure users get reliable, up-to-date data they can trust when it matters most.</p>
+                </div>
+                <div class="value-item">
+                    <div class="value-icon">
+                        <i class="fas fa-bolt"></i>
+                    </div>
+                    <h3>Speed</h3>
+                    <p>In emergencies, every second counts. Our platform is optimized for quick searches and instant results.</p>
+                </div>
+                <div class="value-item">
+                    <div class="value-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <h3>Community</h3>
+                    <p>We build connections between healthcare providers and the communities they serve, fostering better health outcomes.</p>
+                </div>
+                <div class="value-item">
+                    <div class="value-icon">
+                        <i class="fas fa-lock"></i>
+                    </div>
+                    <h3>Privacy</h3>
+                    <p>We respect your privacy. Your location data is used only to provide relevant search results and never shared.</p>
+                </div>
+                <div class="value-item">
+                    <div class="value-icon">
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <h3>Excellence</h3>
+                    <p>We continuously improve our platform to deliver the best possible experience for all users.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Team Section -->
+        <div class="team-section">
+            <h2>Meet Our Team</h2>
+            <div class="team-grid">
+                <div class="team-member">
+                    <div class="member-image">
+                        <i class="fas fa-user-md"></i>
+                    </div>
+                    <div class="member-info">
+                        <h3>Dr. Jean Mbarga</h3>
+                        <p>Founder & CEO</p>
+                        <p>Healthcare Technology Expert</p>
+                        <div class="member-social">
+                            <a href="#"><i class="fab fa-linkedin"></i></a>
+                            <a href="#"><i class="fab fa-twitter"></i></a>
+                            <a href="#"><i class="fas fa-envelope"></i></a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="team-member">
+                    <div class="member-image">
+                        <i class="fas fa-laptop-code"></i>
+                    </div>
+                    <div class="member-info">
+                        <h3>Marie Claire</h3>
+                        <p>Lead Developer</p>
+                        <p>Full Stack Engineer</p>
+                        <div class="member-social">
+                            <a href="#"><i class="fab fa-github"></i></a>
+                            <a href="#"><i class="fab fa-linkedin"></i></a>
+                            <a href="#"><i class="fas fa-envelope"></i></a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="team-member">
+                    <div class="member-image">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <div class="member-info">
+                        <h3>Paul Biyong</h3>
+                        <p>Product Manager</p>
+                        <p>Healthcare Strategy</p>
+                        <div class="member-social">
+                            <a href="#"><i class="fab fa-linkedin"></i></a>
+                            <a href="#"><i class="fab fa-twitter"></i></a>
+                            <a href="#"><i class="fas fa-envelope"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Call to Action -->
+        <div class="cta-section">
+            <h2>Ready to Find Healthcare Near You?</h2>
+            <p>Join thousands of users who already use our platform to locate pharmacies, hospitals, and clinics.</p>
+            <div class="cta-buttons">
+                <a href="signup.php" class="cta-button primary">
+                    <i class="fas fa-user-plus"></i> Create Free Account
+                </a>
+                <a href="home.html" class="cta-button secondary">
+                    <i class="fas fa-map-marked-alt"></i> Search Now
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== FOOTER ===== -->
+    <footer>
+        <div class="footer-container">
+            <div class="footer-copyright">
+                &copy; 2026 PharmaLocator. All rights reserved.
+            </div>
+            <div class="footer-social">
+                <a href="#"><i class="fab fa-facebook-f"></i></a>
+                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                <a href="#"><i class="fab fa-instagram"></i></a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- YOUR EXISTING JAVASCRIPT - 100% INTACT -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const statNumbers = document.querySelectorAll('.stat-number');
+            
+            function animateNumber(element, target) {
+                let current = 0;
+                const increment = target / 50;
+                const timer = setInterval(() => {
+                    current += increment;
+                    if (current >= target) {
+                        element.textContent = target + (element.textContent.includes('+') ? '+' : '');
+                        clearInterval(timer);
+                    } else {
+                        element.textContent = Math.floor(current) + (element.textContent.includes('+') ? '+' : '');
+                    }
+                }, 30);
+            }
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        statNumbers.forEach(stat => {
+                            const target = parseInt(stat.textContent);
+                            if (!isNaN(target)) {
+                                animateNumber(stat, target);
+                            }
+                        });
+                        observer.disconnect();
+                    }
+                });
+            });
+            
+            observer.observe(document.querySelector('.stats-section'));
+        });
+    </script>
+</body>
+</html>

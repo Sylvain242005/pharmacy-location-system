@@ -1,0 +1,997 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us - PharmaLocator</title>
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Leaflet CSS for map -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    
+    <style>
+        /* ===== GLOBAL STYLES ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f8fafc;
+            color: #1e293b;
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* ===== HEADER DESIGN ===== */
+        .new-header {
+            background: white;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.08);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .header-container {
+            max-width: 1300px;
+            margin: 0 auto;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo-link {
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo-icon {
+            font-size: 24px;
+            background: linear-gradient(135deg, #2c7da0, #2a9d8f);
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 10px;
+            color: white;
+        }
+
+        .logo-text {
+            font-weight: 700;
+            font-size: 18px;
+            color: #1e293b;
+        }
+
+        .logo-text span {
+            color: #64748b;
+            font-weight: 400;
+            font-size: 12px;
+            display: block;
+            line-height: 1.2;
+        }
+
+        /* Navigation */
+        .nav-center {
+            display: flex;
+            gap: 32px;
+        }
+
+        .nav-center a {
+            text-decoration: none;
+            color: #475569;
+            font-weight: 500;
+            font-size: 15px;
+            padding: 8px 0;
+            border-bottom: 2px solid transparent;
+            transition: all 0.3s ease;
+        }
+
+        .nav-center a:hover {
+            color: #2c7da0;
+            border-bottom-color: #2c7da0;
+        }
+
+        .nav-center a.active {
+            color: #2c7da0;
+            border-bottom-color: #2c7da0;
+            font-weight: 600;
+        }
+
+        /* Action Buttons */
+        .action-buttons {
+            display: flex;
+            gap: 12px;
+        }
+
+        .btn-signin {
+            text-decoration: none;
+            padding: 8px 20px;
+            background: #f1f5f9;
+            color: #334155;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            border: 1px solid #e2e8f0;
+        }
+
+        .btn-signin:hover {
+            background: #e2e8f0;
+            transform: translateY(-2px);
+        }
+
+        .btn-register {
+            text-decoration: none;
+            padding: 8px 20px;
+            background: #2c7da0;
+            color: white;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 10px rgba(44,125,160,0.2);
+        }
+
+        .btn-register:hover {
+            background: #1e5f7a;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(44,125,160,0.3);
+        }
+
+        /* ===== MAIN CONTAINER ===== */
+        .container {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 20px;
+            flex: 1;
+            width: 100%;
+        }
+
+        /* ===== CONTACT HERO - UPDATED ===== */
+        .contact-hero {
+            background: linear-gradient(135deg, #1e293b, #0f172a);
+            color: white;
+            padding: 80px 20px;
+            text-align: center;
+            border-radius: 24px;
+            margin-bottom: 50px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+        }
+
+        .contact-hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" opacity="0.1"><path d="M20 20 L80 20 L80 80 L20 80 Z" fill="none" stroke="white" stroke-width="2"/><circle cx="50" cy="50" r="15" fill="none" stroke="white" stroke-width="2"/></svg>') repeat;
+            opacity: 0.1;
+        }
+        
+        .contact-hero h1 {
+            font-size: 42px;
+            margin-bottom: 20px;
+            color: white;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .contact-hero p {
+            font-size: 18px;
+            max-width: 800px;
+            margin: 0 auto;
+            opacity: 0.9;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* ===== CONTACT GRID - UPDATED ===== */
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            margin: 50px 0;
+        }
+        
+        /* Contact Info Card */
+        .contact-info {
+            background: white;
+            padding: 40px;
+            border-radius: 24px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            border: 1px solid #f0f0f0;
+        }
+        
+        .contact-info h2 {
+            color: #1e293b;
+            margin-bottom: 30px;
+            font-size: 28px;
+            position: relative;
+            padding-bottom: 15px;
+        }
+        
+        .contact-info h2:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 60px;
+            height: 4px;
+            background: linear-gradient(90deg, #2c7da0, #2a9d8f);
+            border-radius: 2px;
+        }
+        
+        .info-item {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 30px;
+            padding: 15px;
+            border-radius: 16px;
+            transition: background 0.3s;
+        }
+
+        .info-item:hover {
+            background: #f8fafc;
+        }
+        
+        .info-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #2c7da0, #1e5f7a);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 24px;
+            box-shadow: 0 5px 15px rgba(44,125,160,0.2);
+        }
+        
+        .info-content h3 {
+            margin-bottom: 8px;
+            color: #1e293b;
+            font-size: 18px;
+        }
+        
+        .info-content p {
+            color: #64748b;
+            line-height: 1.6;
+            margin-bottom: 5px;
+        }
+        
+        .info-content a {
+            color: #2c7da0;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .info-content a:hover {
+            color: #1e5f7a;
+            text-decoration: underline;
+        }
+        
+        /* Social Links */
+        .social-links {
+            margin-top: 40px;
+        }
+        
+        .social-links h3 {
+            margin-bottom: 20px;
+            color: #1e293b;
+            font-size: 18px;
+        }
+        
+        .social-icons {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+        
+        .social-icons a {
+            width: 45px;
+            height: 45px;
+            background: #f1f5f9;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #475569;
+            font-size: 20px;
+            transition: all 0.3s;
+            border: 1px solid #e2e8f0;
+        }
+        
+        .social-icons a:hover {
+            background: #2c7da0;
+            color: white;
+            transform: translateY(-5px);
+            border-color: transparent;
+            box-shadow: 0 10px 20px rgba(44,125,160,0.2);
+        }
+        
+        /* Contact Form */
+        .contact-form {
+            background: white;
+            padding: 40px;
+            border-radius: 24px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            border: 1px solid #f0f0f0;
+        }
+        
+        .contact-form h2 {
+            color: #1e293b;
+            margin-bottom: 30px;
+            font-size: 28px;
+            position: relative;
+            padding-bottom: 15px;
+        }
+        
+        .contact-form h2:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 60px;
+            height: 4px;
+            background: linear-gradient(90deg, #2c7da0, #2a9d8f);
+            border-radius: 2px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #475569;
+            font-weight: 500;
+            font-size: 14px;
+        }
+        
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 14px 16px;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            font-size: 15px;
+            font-family: inherit;
+            transition: all 0.3s;
+            background: #f8fafc;
+        }
+        
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            border-color: #2c7da0;
+            outline: none;
+            box-shadow: 0 0 0 4px rgba(44,125,160,0.1);
+            background: white;
+        }
+        
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+        
+        .submit-btn {
+            background: linear-gradient(135deg, #2c7da0, #1e5f7a);
+            color: white;
+            padding: 16px 30px;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            box-shadow: 0 4px 15px rgba(44,125,160,0.3);
+        }
+        
+        .submit-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(44,125,160,0.4);
+        }
+
+        .submit-btn:active {
+            transform: translateY(0);
+        }
+
+        /* Alert Messages */
+        .alert {
+            padding: 16px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            font-size: 14px;
+            animation: fadeIn 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .alert i {
+            font-size: 18px;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .alert-success {
+            background: #d1fae5;
+            color: #065f46;
+            border-left: 4px solid #10b981;
+        }
+
+        .alert-danger {
+            background: #fee2e2;
+            color: #991b1b;
+            border-left: 4px solid #ef4444;
+        }
+
+        .alert-info {
+            background: #dbeafe;
+            color: #1e40af;
+            border-left: 4px solid #3b82f6;
+        }
+        
+        /* Office Hours */
+        .office-hours {
+            background: white;
+            padding: 50px;
+            border-radius: 24px;
+            margin: 50px 0;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            border: 1px solid #f0f0f0;
+        }
+        
+        .office-hours h2 {
+            text-align: center;
+            margin-bottom: 40px;
+            font-size: 32px;
+            color: #1e293b;
+            position: relative;
+        }
+
+        .office-hours h2:after {
+            content: '';
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(90deg, #2c7da0, #2a9d8f);
+            border-radius: 2px;
+        }
+        
+        .hours-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .hours-item {
+            text-align: center;
+            padding: 25px;
+            background: #f8fafc;
+            border-radius: 16px;
+            transition: transform 0.3s;
+        }
+
+        .hours-item:hover {
+            transform: translateY(-5px);
+        }
+        
+        .hours-day {
+            font-weight: 600;
+            color: #1e293b;
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+        
+        .hours-time {
+            color: #2c7da0;
+            font-size: 18px;
+            font-weight: 500;
+        }
+        
+        .emergency-note {
+            text-align: center;
+            margin-top: 40px;
+            padding: 20px;
+            background: #fef3c7;
+            border-radius: 16px;
+            color: #92400e;
+            border-left: 4px solid #fbbf24;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        
+        .emergency-note i {
+            color: #dc2626;
+            font-size: 20px;
+        }
+
+        .emergency-note a {
+            color: #dc2626;
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        .emergency-note a:hover {
+            text-decoration: underline;
+        }
+        
+        /* Map Section */
+        .map-section {
+            margin: 50px 0;
+        }
+        
+        .map-section h2 {
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 32px;
+            color: #1e293b;
+            position: relative;
+        }
+
+        .map-section h2:after {
+            content: '';
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(90deg, #2c7da0, #2a9d8f);
+            border-radius: 2px;
+        }
+        
+        .map-container {
+            height: 450px;
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            border: 1px solid #f0f0f0;
+        }
+        
+        /* Footer */
+        footer {
+            background: white;
+            padding: 30px 5%;
+            margin-top: 40px;
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.05);
+        }
+        
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        
+        .footer-copyright {
+            color: #64748b;
+            font-size: 14px;
+        }
+        
+        .footer-social {
+            display: flex;
+            gap: 20px;
+        }
+        
+        .footer-social a {
+            color: #94a3b8;
+            font-size: 18px;
+            transition: all 0.3s;
+        }
+        
+        .footer-social a:hover {
+            color: #2c7da0;
+            transform: translateY(-3px);
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header-container {
+                flex-direction: column;
+                gap: 15px;
+                padding: 15px;
+            }
+            
+            .nav-center {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 15px;
+            }
+            
+            .action-buttons {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .contact-grid,
+            .form-row,
+            .hours-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .contact-hero h1 {
+                font-size: 28px;
+            }
+            
+            .footer-container {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .info-item {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+            }
+
+            .social-icons {
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- ===== NEW HEADER ===== -->
+    <header class="new-header">
+        <div class="header-container">
+            <!-- LEFT: Logo -->
+            <div class="logo-section">
+                <a href="home.html" class="logo-link">
+                    <div class="logo-icon"></div>
+                    <div class="logo-text">
+                        PharmaLocator
+                        <span>Find Care, Fast</span>
+                    </div>
+                </a>
+            </div>
+
+            <!-- CENTER: Navigation (KEEPING YOUR LINKS) -->
+            <nav class="nav-center">
+                <a href="home.html">Home</a>
+                <a href="about.html">About</a>
+                <a href="service.html">Services</a>
+                <a href="contact.html" class="active">Contact</a>
+                <a href="signup.php">Signup</a>
+            </nav>
+
+            <!-- RIGHT: Action Buttons -->
+            <div class="action-buttons">
+                <a href="login.html" class="btn-signin">Sign in</a>
+                <a href="signup.php" class="btn-register">Register</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- ===== MAIN CONTENT (YOUR EXISTING CONTENT - INTACT) ===== -->
+    <div class="container">
+        <!-- Hero Section -->
+        <div class="contact-hero">
+            <h1>Get In Touch</h1>
+            <p>Have questions, suggestions, or need assistance? We're here to help. Reach out to us through any of the channels below.</p>
+        </div>
+
+        <!-- Contact Grid -->
+        <div class="contact-grid">
+            <!-- Contact Information -->
+            <div class="contact-info">
+                <h2>Contact Information</h2>
+                
+                <div class="info-item">
+                    <div class="info-icon">
+                        <i class="fas fa-map-marker-alt"></i>
+                    </div>
+                    <div class="info-content">
+                        <h3>Office Address</h3>
+                        <p>123 Mvog-Mbi Street, Bastos<br>Yaoundé, Cameroon</p>
+                    </div>
+                </div>
+                
+                <div class="info-item">
+                    <div class="info-icon">
+                        <i class="fas fa-phone-alt"></i>
+                    </div>
+                    <div class="info-content">
+                        <h3>Phone Numbers</h3>
+                        <p><strong>Support:</strong> <a href="tel:+237677000000">+237 677 000 000</a></p>
+                        <p><strong>Business:</strong> <a href="tel:+237699000000">+237 699 000 000</a></p>
+                        <p><strong>Emergency:</strong> <a href="tel:+237677111111" style="color: #dc3545;">+237 677 111 111</a></p>
+                    </div>
+                </div>
+                
+                <div class="info-item">
+                    <div class="info-icon">
+                        <i class="fas fa-envelope"></i>
+                    </div>
+                    <div class="info-content">
+                        <h3>Email Addresses</h3>
+                        <p><strong>General:</strong> <a href="mailto:info@pharmacylocator.cm">info@pharmacylocator.cm</a></p>
+                        <p><strong>Support:</strong> <a href="mailto:support@pharmacylocator.cm">support@pharmacylocator.cm</a></p>
+                        <p><strong>Business:</strong> <a href="mailto:business@pharmacylocator.cm">business@pharmacylocator.cm</a></p>
+                    </div>
+                </div>
+                
+                <div class="info-item">
+                    <div class="info-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <div class="info-content">
+                        <h3>Working Hours</h3>
+                        <p><strong>Monday - Friday:</strong> 8:00 AM - 6:00 PM</p>
+                        <p><strong>Saturday:</strong> 9:00 AM - 2:00 PM</p>
+                        <p><strong>Sunday:</strong> Closed</p>
+                    </div>
+                </div>
+                
+                <div class="social-links">
+                    <h3>Follow Us</h3>
+                    <div class="social-icons">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-whatsapp"></i></a>
+                        <a href="#"><i class="fab fa-telegram"></i></a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Contact Form -->
+            <div class="contact-form">
+                <h2>Send Us a Message</h2>
+                
+                <form id="contactForm" onsubmit="sendMessage(event)">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="firstName">First Name *</label>
+                            <input type="text" id="firstName" required placeholder="Enter your first name">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="lastName">Last Name *</label>
+                            <input type="text" id="lastName" required placeholder="Enter your last name">
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="email">Email Address *</label>
+                        <input type="email" id="email" required placeholder="you@example.com">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="phone">Phone Number</label>
+                        <input type="tel" id="phone" placeholder="+237 6XX XXX XXX">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="subject">Subject *</label>
+                        <select id="subject" required>
+                            <option value="">Select a subject</option>
+                            <option value="general">General Inquiry</option>
+                            <option value="support">Technical Support</option>
+                            <option value="business">Business Registration</option>
+                            <option value="feedback">Feedback/Suggestion</option>
+                            <option value="complaint">Report an Issue</option>
+                            <option value="partnership">Partnership Opportunity</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="message">Message *</label>
+                        <textarea id="message" rows="6" required placeholder="How can we help you?"></textarea>
+                    </div>
+                    
+                    <button type="submit" class="submit-btn" id="submitBtn">
+                        <i class="fas fa-paper-plane"></i> Send Message
+                    </button>
+                    
+                    <div id="formMessage" style="margin-top: 20px;"></div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Office Hours -->
+        <div class="office-hours">
+            <h2>Office Hours & Emergency</h2>
+            <div class="hours-grid">
+                <div class="hours-item">
+                    <div class="hours-day">Monday - Friday</div>
+                    <div class="hours-time">8:00 AM - 6:00 PM</div>
+                </div>
+                <div class="hours-item">
+                    <div class="hours-day">Saturday</div>
+                    <div class="hours-time">9:00 AM - 2:00 PM</div>
+                </div>
+                <div class="hours-item">
+                    <div class="hours-day">Sunday</div>
+                    <div class="hours-time">Closed</div>
+                </div>
+            </div>
+            
+            <div class="emergency-note">
+                <i class="fas fa-exclamation-triangle"></i>
+                <strong>Emergency Support:</strong> For urgent issues outside business hours, please call our emergency line at 
+                <a href="tel:+237677111111">+237 677 111 111</a>
+            </div>
+        </div>
+
+        <!-- Map Section -->
+        <div class="map-section">
+            <h2>Find Us Here</h2>
+            <div id="contactMap" class="map-container"></div>
+        </div>
+    </div>
+
+    <!-- ===== FOOTER ===== -->
+    <footer>
+        <div class="footer-container">
+            <div class="footer-copyright">
+                &copy; 2026 PharmaLocator. All rights reserved.
+            </div>
+            <div class="footer-social">
+                <a href="#"><i class="fab fa-facebook-f"></i></a>
+                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                <a href="#"><i class="fab fa-instagram"></i></a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Leaflet JavaScript -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    
+    <script>
+        // ===== YOUR EXISTING JAVASCRIPT - 100% INTACT =====
+        
+        // Initialize contact page map
+        function initContactMap() {
+            const map = L.map('contactMap').setView([3.8480, 11.5021], 14);
+            
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '© OpenStreetMap contributors'
+            }).addTo(map);
+            
+            // Office location marker
+            const officeIcon = L.icon({
+                iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-blue.png',
+                shadowUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png',
+                iconSize: [25, 41],
+                iconAnchor: [12, 41],
+                popupAnchor: [1, -34],
+                shadowSize: [41, 41]
+            });
+            
+            const marker = L.marker([3.8480, 11.5021], {icon: officeIcon})
+                .addTo(map)
+                .bindPopup(`
+                    <div style="text-align: center;">
+                        <strong>Pharmacy Locator Headquarters</strong><br>
+                        123 Mvog-Mbi Street, Bastos<br>
+                        Yaoundé, Cameroon
+                    </div>
+                `)
+                .openPopup();
+            
+            // Add a circle to highlight area
+            L.circle([3.8480, 11.5021], {
+                color: '#007BFF',
+                fillColor: '#007BFF',
+                fillOpacity: 0.1,
+                radius: 500
+            }).addTo(map);
+        }
+        
+        // Contact form handling
+        async function sendMessage(event) {
+            event.preventDefault();
+            
+            const submitBtn = document.getElementById('submitBtn');
+            const originalText = submitBtn.innerHTML;
+            
+            // Get form values
+            const formData = {
+                firstName: document.getElementById('firstName').value,
+                lastName: document.getElementById('lastName').value,
+                email: document.getElementById('email').value,
+                phone: document.getElementById('phone').value,
+                subject: document.getElementById('subject').value,
+                message: document.getElementById('message').value
+            };
+            
+            // Simple validation
+            if (!formData.firstName || !formData.lastName || !formData.email || !formData.subject || !formData.message) {
+                showFormMessage('Please fill in all required fields', 'danger');
+                return;
+            }
+            
+            if (!isValidEmail(formData.email)) {
+                showFormMessage('Please enter a valid email address', 'danger');
+                return;
+            }
+            
+            // Show loading state
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
+            submitBtn.disabled = true;
+            
+            try {
+                // Simulate API call (replace with actual backend endpoint)
+                await new Promise(resolve => setTimeout(resolve, 1500));
+                
+                // Success message
+                showFormMessage('Thank you! Your message has been sent successfully. We will respond within 24 hours.', 'success');
+                
+                // Reset form
+                document.getElementById('contactForm').reset();
+                
+            } catch (error) {
+                showFormMessage('An error occurred. Please try again or contact us by phone.', 'danger');
+            } finally {
+                // Reset button
+                submitBtn.innerHTML = originalText;
+                submitBtn.disabled = false;
+            }
+        }
+        
+        function isValidEmail(email) {
+            const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return re.test(email);
+        }
+        
+        function showFormMessage(message, type) {
+            const msgDiv = document.getElementById('formMessage');
+            msgDiv.innerHTML = `<div class="alert alert-${type}"><i class="fas fa-${type === 'success' ? 'check-circle' : 'exclamation-circle'}"></i> ${message}</div>`;
+            
+            // Auto hide after 5 seconds
+            setTimeout(() => {
+                msgDiv.innerHTML = '';
+            }, 5000);
+        }
+        
+        // Initialize map when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            initContactMap();
+        });
+    </script>
+</body>
+</html>
