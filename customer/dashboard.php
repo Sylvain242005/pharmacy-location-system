@@ -663,7 +663,7 @@ while ($row = $facilities_result->fetch_assoc()) {
             <div class="user-menu">
                 <span class="user-name">
                     <i class="fas fa-user-circle"></i>
-                    <?php echo htmlspecialchars($_SESSION['user_name']); ?>
+    
                 </span>
                 <a href="../logout.php" class="logout-btn">
                     <i class="fas fa-sign-out-alt"></i> Logout
@@ -676,7 +676,7 @@ while ($row = $facilities_result->fetch_assoc()) {
     <div class="dashboard-container">
         <!-- Welcome Section -->
         <div class="welcome-section">
-            <h2>Welcome back, <?php echo htmlspecialchars($_SESSION['user_name']); ?>! </h2>
+            <h2>Welcome back</h2>
             <p>Find healthcare facilities near you, check medicine availability, and get directions instantly.</p>
         </div>
 
