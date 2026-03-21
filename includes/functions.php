@@ -3,8 +3,8 @@
  * functions.php – Core helper functions
  */
 
-require_once __DIR__ . '../includes/config.php';
-require_once __DIR__ . '../includes/db.php';
+require_once __DIR__ . '/config.php';
+require_once __DIR__ . '/db.php';
 
 // Start session if not already started
 if (session_status() === PHP_SESSION_NONE) {

@@ -37,7 +37,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'], $_POST['own
         $_SESSION['success_msg'] = "Business rejected.";
     }
 
-    header('Location: business_verification.php');
+    // ✅ Redirect to the same file (verify_businesses.php)
+    header('Location: verify_businesses.php');
     exit();
 }
 
@@ -60,7 +61,7 @@ $pending = $conn->query($query);
     <title>Business Verifications - Admin Panel</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* Same styles as your redesigned admin pages */
+        /* Same styles as your redesigned admin pages (unchanged) */
         * {
             margin: 0;
             padding: 0;
@@ -435,7 +436,7 @@ $pending = $conn->query($query);
             <nav class="nav-center">
                 <a href="dashboard.php">Dashboard</a>
                 <a href="manage_users.php">Users</a>
-                <a href="business_verification.php" class="active">Verifications</a>
+                <a href="verify_businesses.php" class="active">Verifications</a>
                 <a href="reports.php">Reports</a>
             </nav>
 
