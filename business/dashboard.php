@@ -814,7 +814,7 @@ foreach ($facilities as $fac) {
             <!-- LEFT: Logo -->
             <div class="logo-section">
                 <a href="../home.html" class="logo-link">
-                    <div class="logo-icon">💊</div>
+                    <div class="logo-icon"></div>
                     <div class="logo-text">
                         PharmaLocator
                         <span>Find Care, Fast</span>
@@ -826,6 +826,7 @@ foreach ($facilities as $fac) {
             <nav class="nav-center">
                 <a href="dashboard.php" class="active">Dashboard</a>
                 <a href="add_facility.php">Add Facility</a>
+                
             </nav>
 
             <!-- RIGHT: User Menu -->
@@ -837,6 +838,20 @@ foreach ($facilities as $fac) {
                 <a href="../logout.php" class="logout-btn">
                     <i class="fas fa-sign-out-alt"></i> Logout
                 </a>
+               <div class="language-switcher">
+    <select id="languageSelect" onchange="changeLanguage(this.value)">
+        <option value="en" <?php echo ($current_lang == 'en') ? 'selected' : ''; ?>>English</option>
+        <option value="fr" <?php echo ($current_lang == 'fr') ? 'selected' : ''; ?>>Français</option>
+    </select>
+</div>
+
+<script>
+function changeLanguage(lang) {
+    // Save language preference via AJAX or simple redirect with query param
+    window.location.href = 'set_language.php?lang=' + lang + '&redirect=' + encodeURIComponent(window.location.pathname);
+}
+</script>
+
             </div>
         </div>
     </header>
@@ -977,39 +992,33 @@ foreach ($facilities as $fac) {
                     </div>
                     
                     <!-- Action Buttons (KEEPING YOUR LINKS) -->
-                    <div class="action-bar">
-                        <a href="edit_facility.php?id=<?php echo $facility['facility_id']; ?>" 
-                           class="btn-small btn-warning">
-                            <i class="fas fa-edit"></i> Edit
-                        </a>
-                        
-                        <?php if ($facility['facility_type'] == 'pharmacy'): ?>
-                            <a href="manage_products.php?facility_id=<?php echo $facility['facility_id']; ?>" 
-                               class="btn-small btn-primary">
-                                <i class="fas fa-pills"></i> Manage Products (<?php echo $facility['products_count'] ?? 0; ?>)
-                            </a>
-                            <a href="add_product.php?facility_id=<?php echo $facility['facility_id']; ?>" 
-                               class="btn-small btn-success">
-                                <i class="fas fa-plus-circle"></i> Add Product
-                            </a>
-                        <?php endif; ?>
-                        
-                        <?php if (in_array($facility['facility_type'], ['hospital', 'clinic'])): ?>
-                            <a href="manage_services.php?facility_id=<?php echo $facility['facility_id']; ?>" 
-                               class="btn-small btn-primary">
-                                <i class="fas fa-stethoscope"></i> Manage Services (<?php echo $facility['services_count'] ?? 0; ?>)
-                            </a>
-                            <a href="add_service.php?facility_id=<?php echo $facility['facility_id']; ?>" 
-                               class="btn-small btn-success">
-                                <i class="fas fa-plus-circle"></i> Add Service
-                            </a>
-                        <?php endif; ?>
-                        
-                        <a href="view_facility.php?id=<?php echo $facility['facility_id']; ?>" 
-                           class="btn-small btn-view">
-                            <i class="fas fa-external-link-alt"></i> View Public Page
-                        </a>
-                    </div>
+                   <div class="action-bar">
+    <a href="edit_facility.php?id=<?php echo $facility['facility_id']; ?>" class="btn-small btn-warning">
+        <i class="fas fa-edit"></i> Edit
+    </a>
+
+    <?php if ($facility['facility_type'] == 'pharmacy'): ?>
+        <a href="manage_products.php?facility_id=<?php echo $facility['facility_id']; ?>" class="btn-small btn-primary">
+            <i class="fas fa-pills"></i> Manage Products (<?php echo $facility['products_count'] ?? 0; ?>)
+        </a>
+        <a href="add_products.php?facility_id=<?php echo $facility['facility_id']; ?>" class="btn-small btn-success">
+            <i class="fas fa-plus-circle"></i> Add Product
+        </a>
+    <?php endif; ?>
+
+    <?php if (in_array($facility['facility_type'], ['hospital', 'clinic'])): ?>
+        <a href="manage_services.php?facility_id=<?php echo $facility['facility_id']; ?>" class="btn-small btn-primary">
+            <i class="fas fa-stethoscope"></i> Manage Services (<?php echo $facility['services_count'] ?? 0; ?>)
+        </a>
+        <a href="add_services.php?facility_id=<?php echo $facility['facility_id']; ?>" class="btn-small btn-success">
+            <i class="fas fa-plus-circle"></i> Add Service
+        </a>
+    <?php endif; ?>
+
+    <a href="view_facility.php?id=<?php echo $facility['facility_id']; ?>" class="btn-small btn-view">
+        <i class="fas fa-external-link-alt"></i> View Public Page
+    </a>
+</div>
                     
                     <!-- Preview of Products/Services -->
                     <?php if ($facility['facility_type'] == 'pharmacy' && isset($facility['products_count']) && $facility['products_count'] > 0): ?>

@@ -623,8 +623,17 @@ if (empty($facility_types)) {
 
                     <div class="form-group">
                         <label><i class="fas fa-tag"></i> Facility Type *</label>
-                        <select id="type" name="type" required>
-                            <option value="">Select Type</option>
+                       <select id="type" name="type" required>
+    <option value="">Select Type</option>
+    <?php
+    $types = ['pharmacy', 'hospital', 'clinic', 'health center', 'laboratory', 'optician', 'dentist', 'other'];
+    foreach ($types as $t) {
+        echo "<option value=\"$t\">" . ucfirst($t) . "</option>";
+    }
+    ?>
+</select>
+                            </select>
+                            
                             <?php foreach ($facility_types as $type): ?>
                                 <option value="<?php echo htmlspecialchars($type); ?>" 
                                     <?php echo (isset($_POST['type']) && $_POST['type'] == $type) ? 'selected' : ''; ?>>

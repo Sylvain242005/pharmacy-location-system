@@ -530,7 +530,7 @@ $favorites = $conn->query($sql);
             <!-- LEFT: Logo -->
             <div class="logo-section">
                 <a href="../home.html" class="logo-link">
-                    <div class="logo-icon">💊</div>
+                    <div class="logo-icon"></div>
                     <div class="logo-text">
                         PharmaLocator
                         <span>Find Care, Fast</span>

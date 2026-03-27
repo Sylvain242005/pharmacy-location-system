@@ -403,7 +403,7 @@ if ($facility['facility_type'] == 'hospital' || $facility['facility_type'] == 'c
         <div class="header-container">
             <div class="logo-section">
                 <a href="../home.html" class="logo-link">
-                    <div class="logo-icon">💊</div>
+                    <div class="logo-icon"></div>
                     <div class="logo-text">
                         PharmaLocator
                         <span>Admin Portal</span>

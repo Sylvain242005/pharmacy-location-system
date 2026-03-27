@@ -90,11 +90,11 @@ function getRoles() {
     return ['customer' => 'Customer', 'business_owner' => 'Business Owner', 'admin' => 'Admin'];
 }
 
-function getProductCategories() {
+function getProductsCategories() {
     return ['Pain Relief', 'Antibiotics', 'Vitamins', 'Cold & Flu', 'Allergy', 'Digestive', 'First Aid', 'Other'];
 }
 
-function getServiceCategories() {
+function getServicesCategories() {
     return ['Consultation', 'Emergency', 'Surgery', 'Maternity', 'Pediatrics', 'Cardiology', 'Radiology', 'Laboratory', 'Dental', 'Other'];
 }
 

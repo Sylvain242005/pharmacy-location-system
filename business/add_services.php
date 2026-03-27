@@ -480,7 +480,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <div class="header-container">
             <div class="logo-section">
                 <a href="../home.html" class="logo-link">
-                    <div class="logo-icon">💊</div>
+                    <div class="logo-icon"></div>
                     <div class="logo-text">
                         PharmaLocator
                         <span>Find Care, Fast</span>
@@ -491,6 +491,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <nav class="nav-center">
                 <a href="dashboard.php">Dashboard</a>
                 <a href="manage_services.php?facility_id=<?php echo $facility_id; ?>">Services</a>
+                <a href="add_services.php?facility_id=<?php echo $facility_id; ?>">Services</a>
             </nav>
 
             <div class="user-menu">

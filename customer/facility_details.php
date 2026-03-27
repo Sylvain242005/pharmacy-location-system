@@ -126,7 +126,7 @@ if (in_array($facility['facility_type'], ['hospital', 'clinic'])) {
         <div class="header-container">
             <div class="logo-section">
                 <a href="../home.html" class="logo-link">
-                    <div class="logo-icon">💊</div>
+                    <div class="logo-icon"></div>
                     <div class="logo-text">PharmaLocator<span>Find Care, Fast</span></div>
                 </a>
             </div>

@@ -157,7 +157,7 @@ $facilities = $conn->query("SELECT * FROM facilities WHERE owner_id = $owner_id"
         <div class="header-container">
             <div class="logo-section">
                 <a href="../home.html" class="logo-link">
-                    <div class="logo-icon">💊</div>
+                    <div class="logo-icon"></div>
                     <div class="logo-text">PharmaLocator<span>Admin Portal</span></div>
                 </a>
             </div>

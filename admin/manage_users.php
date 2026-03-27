@@ -402,7 +402,7 @@ $users = $conn->query("SELECT * FROM users ORDER BY created_at DESC");
         <div class="header-container">
             <div class="logo-section">
                 <a href="../home.html" class="logo-link">
-                    <div class="logo-icon">💊</div>
+                    <div class="logo-icon"></div>
                     <div class="logo-text">
                         PharmaLocator
                         <span>Admin Portal</span>

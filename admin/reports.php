@@ -335,7 +335,7 @@ $recent_searches = $conn->query("SELECT s.*, u.full_name FROM searches s LEFT JO
         <div class="header-container">
             <div class="logo-section">
                 <a href="../home.html" class="logo-link">
-                    <div class="logo-icon">💊</div>
+                    <div class="logo-icon"></div>
                     <div class="logo-text">
                         PharmaLocator
                         <span>Admin Portal</span>

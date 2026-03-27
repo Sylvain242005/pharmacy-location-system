@@ -643,7 +643,7 @@ while ($row = $facilities_result->fetch_assoc()) {
             <!-- LEFT: Logo -->
             <div class="logo-section">
                 <a href="../home.html" class="logo-link">
-                    <div class="logo-icon">💊</div>
+                    <div class="logo-icon"></div>
                     <div class="logo-text">
                         PharmaLocator
                         <span>Find Care, Fast</span>
@@ -655,8 +655,7 @@ while ($row = $facilities_result->fetch_assoc()) {
             <nav class="nav-center">
                 <a href="dashboard.php" class="active">Home</a>
                 <a href="favorites.php">Favorites (<?php echo $favorites_count; ?>)</a>
-                <a href="../about.html">About</a>
-                <a href="../contact.html">Contact</a>
+                
             </nav>
 
             <!-- RIGHT: User Menu -->

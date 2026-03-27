@@ -531,7 +531,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <div class="header-container">
             <div class="logo-section">
                 <a href="../home.html" class="logo-link">
-                    <div class="logo-icon">💊</div>
+                    <div class="logo-icon"></div>
                     <div class="logo-text">
                         PharmaLocator
                         <span>Business Portal</span>

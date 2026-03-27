@@ -1,66 +1,73 @@
 <?php
 // business/add_product.php
 session_start();
-require_once '../includes/db.php';
-require_once '../includes/functions.php';
+require_once __DIR__ . '/../includes/db.php';
+require_once __DIR__ . '/../includes/functions.php';
 
-if (!isLoggedIn() || !isBusinessOwner()) {
-    header("Location: " . SITE_URL . "/login.html");
+// Only business owners can access
+if (!isBusinessOwner()) {
+    header('Location: ' . SITE_URL . '/login.html');
     exit();
 }
 
-$facility_id = intval($_GET['facility_id'] ?? 0);
-$user_id = $_SESSION['user_id'];
-
-// Verify ownership
-$check = $conn->query("SELECT f.* FROM facilities f 
-                      JOIN business_owners bo ON f.owner_id = bo.owner_id 
-                      WHERE f.facility_id = $facility_id AND bo.user_id = $user_id");
-
-if ($check->num_rows == 0) {
-    die("Unauthorized access");
+// Get facility ID from URL
+$facility_id = isset($_GET['facility_id']) ? (int)$_GET['facility_id'] : 0;
+if (!$facility_id) {
+    die("No facility selected. Please go back and choose a facility.");
 }
 
-$facility = $check->fetch_assoc();
+// Verify that the facility belongs to this owner
+$check = $conn->prepare("SELECT f.* FROM facilities f
+                         JOIN business_owners bo ON f.owner_id = bo.owner_id
+                         WHERE f.facility_id = ? AND bo.user_id = ?");
+$check->bind_param('ii', $facility_id, $_SESSION['user_id']);
+$check->execute();
+$facility = $check->get_result()->fetch_assoc();
+
+if (!$facility) {
+    die("Unauthorized access or facility not found.");
+}
+
 $message = '';
 $messageType = '';
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $name = sanitize($_POST['name']);
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $name        = sanitize($_POST['name']);
     $description = sanitize($_POST['description']);
-    $price = floatval($_POST['price']);
-    $category = sanitize($_POST['category']);
+    $price       = floatval($_POST['price']);
+    $category    = sanitize($_POST['category']);
     $stock_status = sanitize($_POST['stock_status']);
-    $quantity = intval($_POST['quantity']);
+    $quantity    = intval($_POST['quantity']);
     $expiry_date = $_POST['expiry_date'] ?: null;
     $manufacturer = sanitize($_POST['manufacturer']);
     $prescription = isset($_POST['prescription_required']) ? 1 : 0;
 
-    $sql = "INSERT INTO products (facility_id, name, description, price, category, stock_status, quantity, expiry_date, manufacturer, prescription_required) 
+    $sql = "INSERT INTO products (facility_id, name, description, price, category, stock_status, quantity, expiry_date, manufacturer, prescription_required)
             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param("issdssisss", $facility_id, $name, $description, $price, $category, $stock_status, $quantity, $expiry_date, $manufacturer, $prescription);
-    
+    $stmt->bind_param('issdssisss', $facility_id, $name, $description, $price, $category, $stock_status, $quantity, $expiry_date, $manufacturer, $prescription);
+
     if ($stmt->execute()) {
         $message = "Product added successfully!";
         $messageType = "success";
+        // Optionally reset the form or keep it filled
     } else {
         $message = "Error: " . $conn->error;
         $messageType = "danger";
     }
+    $stmt->close();
 }
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Add Product - PharmaLocator</title>
-    
-    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
     <style>
+    
         /* ===== GLOBAL STYLES ===== */
         * {
             margin: 0;
@@ -224,7 +231,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
 
         .page-header h1 i {
-            color: #2a9d8f;
+            color: #2c7da0;
         }
 
         .facility-info {
@@ -236,6 +243,22 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         .facility-info i {
             color: #2c7da0;
+        }
+
+        .badge {
+            padding: 4px 12px;
+            border-radius: 30px;
+            font-size: 12px;
+            font-weight: 600;
+            color: white;
+        }
+
+        .badge.hospital {
+            background: linear-gradient(135deg, #e76f51, #c44536);
+        }
+
+        .badge.clinic {
+            background: linear-gradient(135deg, #2c7da0, #1e5f7a);
         }
 
         /* Form Card */
@@ -331,23 +354,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             background: white;
         }
 
-        .checkbox-group {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin: 20px 0;
-        }
-
-        .checkbox-group input[type="checkbox"] {
-            width: auto;
-            margin-right: 8px;
-        }
-
-        .checkbox-group label {
-            display: inline;
-            margin-bottom: 0;
-        }
-
         /* Action Buttons */
         .action-buttons {
             display: flex;
@@ -358,7 +364,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         .btn-primary {
             flex: 2;
             padding: 14px 30px;
-            background: linear-gradient(135deg, #2a9d8f, #1e7a6a);
+            background: linear-gradient(135deg, #2c7da0, #1e5f7a);
             color: white;
             border: none;
             border-radius: 40px;
@@ -370,12 +376,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             align-items: center;
             justify-content: center;
             gap: 8px;
-            box-shadow: 0 4px 15px rgba(42,157,143,0.3);
+            box-shadow: 0 4px 15px rgba(44,125,160,0.3);
         }
 
         .btn-primary:hover {
             transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(42,157,143,0.4);
+            box-shadow: 0 8px 25px rgba(44,125,160,0.4);
         }
 
         .btn-secondary {
@@ -478,12 +484,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     </style>
 </head>
 <body>
-    <!-- ===== HEADER ===== -->
-    <header class="new-header">
+        <header class="new-header">
         <div class="header-container">
             <div class="logo-section">
                 <a href="../home.html" class="logo-link">
-                    <div class="logo-icon">💊</div>
+                    <div class="logo-icon"></div>
                     <div class="logo-text">
                         PharmaLocator
                         <span>Find Care, Fast</span>
@@ -494,6 +499,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <nav class="nav-center">
                 <a href="dashboard.php">Dashboard</a>
                 <a href="manage_products.php?facility_id=<?php echo $facility_id; ?>">Products</a>
+                <a href="add_products.php?facility_id=<?php echo $facility_id; ?>">Add Product</a>
             </nav>
 
             <div class="user-menu">
@@ -508,45 +514,34 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         </div>
     </header>
 
-    <!-- ===== MAIN CONTENT ===== -->
     <div class="container">
         <div class="page-header">
-            <h1>
-                <i class="fas fa-plus-circle"></i> 
-                Add New Product
-            </h1>
+            <h1><i class="fas fa-plus-circle"></i> Add Product</h1>
             <div class="facility-info">
-                <i class="fas fa-building"></i>
-                <?php echo htmlspecialchars($facility['name']); ?>
-                <span class="badge pharmacy" style="padding: 4px 12px; background: #2a9d8f; color: white; border-radius: 30px; font-size: 12px;">
-                    <?php echo ucfirst($facility['facility_type']); ?>
-                </span>
+                <i class="fas fa-building"></i> <?php echo htmlspecialchars($facility['name']); ?>
+                <span class="badge <?php echo $facility['facility_type']; ?>"><?php echo ucfirst($facility['facility_type']); ?></span>
             </div>
         </div>
 
         <div class="form-card">
             <?php if ($message): ?>
                 <div class="alert alert-<?php echo $messageType; ?>">
-                    <i class="fas fa-<?php echo $messageType == 'success' ? 'check-circle' : 'exclamation-circle'; ?>"></i>
+                    <i class="fas fa-<?php echo $messageType === 'success' ? 'check-circle' : 'exclamation-circle'; ?>"></i>
                     <?php echo $message; ?>
-                    <?php if ($messageType == 'success'): ?>
-                        <a href="manage_products.php?facility_id=<?php echo $facility_id; ?>">View all products →</a>
-                    <?php endif; ?>
                 </div>
             <?php endif; ?>
 
             <form method="POST">
+                <div class="form-group full-width">
+                    <label><i class="fas fa-tag"></i> Product Name </label>
+                    <input type="text" name="name" required>
+                </div>
+
                 <div class="form-grid">
-                    <div class="form-group full-width">
-                        <label><i class="fas fa-tag"></i> Product Name *</label>
-                        <input type="text" name="name" required placeholder="e.g., Paracetamol 500mg">
-                    </div>
-
                     <div class="form-group">
-                        <label><i class="fas fa-money-bill"></i> Price (XAF) *</label>
-                        <input type="number" name="price" min="0" step="50" required placeholder="1500">
+                        <label><i class="fas fa-money-bill"></i> Price (XAF) </label>
+                        <input type="number" name="price" min="0" step="50" required>
                     </div>
-
                     <div class="form-group">
                         <label><i class="fas fa-folder"></i> Category</label>
                         <select name="category">
@@ -560,8 +555,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                             <option value="First Aid">First Aid</option>
                             <option value="Other">Other</option>
                         </select>
+                          
                     </div>
-
                     <div class="form-group">
                         <label><i class="fas fa-chart-line"></i> Stock Status *</label>
                         <select name="stock_status" required>
@@ -570,34 +565,28 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                             <option value="out_of_stock">Out of Stock</option>
                         </select>
                     </div>
-
                     <div class="form-group">
                         <label><i class="fas fa-boxes"></i> Quantity</label>
-                        <input type="number" name="quantity" min="0" value="0" placeholder="50">
+                        <input type="number" name="quantity" min="0" value="0">
                     </div>
-
                     <div class="form-group">
                         <label><i class="fas fa-calendar-alt"></i> Expiry Date</label>
                         <input type="date" name="expiry_date">
                     </div>
-
                     <div class="form-group">
                         <label><i class="fas fa-industry"></i> Manufacturer</label>
-                        <input type="text" name="manufacturer" placeholder="e.g., PharmaLab">
+                        <input type="text" name="manufacturer">
                     </div>
                 </div>
 
                 <div class="form-group full-width">
                     <label><i class="fas fa-align-left"></i> Description</label>
-                    <textarea name="description" rows="3" placeholder="Product description, dosage information, etc."></textarea>
+                    <textarea name="description" rows="3"></textarea>
                 </div>
 
                 <div class="checkbox-group">
                     <input type="checkbox" name="prescription_required" id="prescription">
-                    <label for="prescription">
-                        <i class="fas fa-prescription-bottle"></i>
-                        Prescription Required (Rx)
-                    </label>
+                    <label for="prescription"><i class="fas fa-prescription-bottle"></i> Prescription Required</label>
                 </div>
 
                 <div class="action-buttons">
@@ -612,19 +601,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         </div>
     </div>
 
-    <!-- ===== FOOTER ===== -->
-    <footer>
-        <div class="footer-container">
-            <div class="footer-copyright">
-                &copy; 2026 PharmaLocator - Business Portal. All rights reserved.
-            </div>
-            <div class="footer-social">
-                <a href="#"><i class="fab fa-facebook-f"></i></a>
-                <a href="#"><i class="fab fa-twitter"></i></a>
-                <a href="#"><i class="fab fa-linkedin-in"></i></a>
-                <a href="#"><i class="fab fa-instagram"></i></a>
-            </div>
-        </div>
-    </footer>
+    <footer>...</footer> <!-- same footer -->
 </body>
 </html>
