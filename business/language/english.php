@@ -35,7 +35,6 @@ $lang = [
     'add' => 'Add',
     'manage' => 'Manage',
     'products' => 'Products',
-    'services' => 'Services',
     'description' => 'Description',
     'address' => 'Address',
     'phone' => 'Phone',
@@ -61,5 +60,4 @@ $lang = [
     'customer' => 'Customer',
     'business_owner' => 'Business Owner',
     'admin' => 'Admin',
-    // Add more as needed
 ];

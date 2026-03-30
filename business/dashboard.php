@@ -838,12 +838,6 @@ foreach ($facilities as $fac) {
                 <a href="../logout.php" class="logout-btn">
                     <i class="fas fa-sign-out-alt"></i> Logout
                 </a>
-               <div class="language-switcher">
-    <select id="languageSelect" onchange="changeLanguage(this.value)">
-        <option value="en" <?php echo ($current_lang == 'en') ? 'selected' : ''; ?>>English</option>
-        <option value="fr" <?php echo ($current_lang == 'fr') ? 'selected' : ''; ?>>Français</option>
-    </select>
-</div>
 
 <script>
 function changeLanguage(lang) {
